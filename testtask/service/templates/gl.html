@@ -1,0 +1,10 @@
+
+<table border="1">
+        <tr>
+        {%for x in albums%}
+           <td><a href="/service/photo_detail/{{x.id}}/">{{x.title}}</a></td>
+    
+        {% endfor %}
+       </tr>
+
+</table>

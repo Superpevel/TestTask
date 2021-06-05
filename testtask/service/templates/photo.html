@@ -1,0 +1,12 @@
+{% load static %}
+<table border="1">
+    <tr>
+    {%for x in photos%}
+       
+    <p>Title {{x.title}}
+    <p><img src="{% static x.path %}">
+    <p>Photo Id {{x.id1}}
+    {% endfor %}
+   </tr>
+
+</table>
