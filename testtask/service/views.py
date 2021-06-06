@@ -7,6 +7,36 @@ import json
 from multiprocessing import Pool 
 import threading
 from concurrent.futures import ThreadPoolExecutor, Future
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import album_seial,album_detail,update_serial
+from rest_framework.generics import get_object_or_404,GenericAPIView
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated 
+
+
+class albums_view(APIView):
+       permission_classes = (IsAuthenticated,) 
+       def get(self, request):
+              albums = album.objects.all()
+              serializer = album_seial(albums, many=True)
+              return Response({"album": serializer.data})
+
+
+class albums_with_photo(APIView):
+       def get(self, request,pk):
+              photos  = photo.objects.filter(albumId = pk)
+              serializer = album_detail(photos,many = True)
+              return Response({"album_detail":serializer.data})
+
+
+
+class album_update(GenericAPIView, UpdateModelMixin):
+    queryset = album.objects.all()
+    serializer_class = update_serial
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)       
 
 
 def index(request):
@@ -27,7 +57,7 @@ def  download_image(image_url,id,alb,tit,thum):
     url = str(image_url)
     r = requests.get(url, allow_redirects=True)
     filename = url.split('/')[-1]
-    pat = 'images/{}.png'.format(id)
+    pat = 'testtask/static/images/{}.png'.format(id)
     open(pat, 'wb').write(r.content)
     img = Image.open(pat)
     resized_img = img.resize((500, 500), Image.ANTIALIAS)
