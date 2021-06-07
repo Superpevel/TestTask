@@ -57,11 +57,12 @@ def  download_image(image_url,id,alb,tit,thum):
     url = str(image_url)
     r = requests.get(url, allow_redirects=True)
     filename = url.split('/')[-1]
-    pat = 'testtask/static/images/{}.png'.format(id)
+    pat = 'testtask/static/{}.png'.format(id)
     open(pat, 'wb').write(r.content)
     img = Image.open(pat)
     resized_img = img.resize((500, 500), Image.ANTIALIAS)
     resized_img.save(pat)
+    pat = '{}.png'.format(id)
     tom = photo.objects.create(title=tit,id1 =id , albumId = alb , thumbnailUrl= thum,path =pat)
 
 
