@@ -1,0 +1,10 @@
+version: "3"
+services:
+    testtask:
+        build: .
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./testtask:/testtask
+        ports: 
+            - "8000:8000"
+        
