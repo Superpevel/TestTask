@@ -27,6 +27,7 @@ class albums_view(APIView):
 
 
 class albums_with_photo(APIView):
+       permission_classes = (IsAuthenticated,) 
        def get(self, request,pk):
               photos  = photo.objects.filter(albumId = pk)
               serializer = album_detail(photos,many = True)
@@ -35,10 +36,11 @@ class albums_with_photo(APIView):
 
 
 class album_update(GenericAPIView, UpdateModelMixin):
-    queryset = album.objects.all()
-    serializer_class = update_serial
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)       
+       permission_classes = (IsAuthenticated,) 
+       queryset = album.objects.all()
+       serializer_class = update_serial
+       def put(self, request, *args, **kwargs):
+              return self.update(request, *args, **kwargs)       
 
 
 def index(request):
