@@ -1,12 +1,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<div class="seconds">10</div>
-
-<form action="/index/" method="post">
+{% if tokens.key %}
+    <h1>You token key:{{tokens.key}}</h1>
+    <p>save it!</p>
+{% else %}
+<form action="" method="post">
     {% csrf_token %}
-    <label for="your_name">Your name: </label>
-    <input id="name" type="text" name="name">
+    <label for="Registrations">Pls enter fields below: </label>
+    <input id="username" type="text" name="username">
+    <input id="password" type="text" name="password">
+    <input id="email" type="text" name="email">
     <input type="submit" value="OK">
     {{name}}
-    <div id="time" name="time" value>1000</div>
-    {{albums}}
 </form>
+{% endif %}

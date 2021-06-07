@@ -14,6 +14,8 @@ from rest_framework.generics import get_object_or_404,GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated 
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 
 
 class albums_view(APIView):
@@ -40,8 +42,17 @@ class album_update(GenericAPIView, UpdateModelMixin):
 
 
 def index(request):
-       albums = album.objects.all()
-       return render(request, "index.html",{'albums':albums})      
+       if request.method == 'POST':
+              usernam = request.POST['username']
+              passwd = request.POST['password']
+              em = request.POST['email']
+              if User.objects.filter(username = usernam).first():
+                     return render(request,"index.html" ,{'is already':'already created!'})   
+              else:
+                     user1 = User.objects.create_user(username = usernam,password = passwd,email = em)
+                     token= Token.objects.create(user=user1)
+                     return render(request, "index.html",{'tokens':token})
+       return render(request, "index.html")      
 
 def add(request):
        album.objects.all().delete()
