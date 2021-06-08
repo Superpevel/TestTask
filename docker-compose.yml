@@ -17,5 +17,5 @@ services:
         - POSTGRES_USER=hello_django
         - POSTGRES_PASSWORD=hello_django
         - POSTGRES_DB=hello_django_dev
-    volumes:
-        postgres_data:
+volumes:
+    postgres_data:
